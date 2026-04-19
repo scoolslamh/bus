@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تقارير حملة حتى تصل بأمان | الإدارة العامة للاعليم بمنطقة عسير </title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #006c35;
+            --primary-dark: #004d27;
+            --accent: #2ecc71;
+            --bg: #f8fafb;
+            --white: #ffffff;
+            --text: #2c3e50;
+            --danger: #e74c3c;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            color: var(--text);
+            direction: rtl;
+        }
+
+        /* ======= الهيدر الجديد المطور ======= */
+        header {
+            background: var(--white);
+            padding: 25px 20px;
+            text-align: center;
+            border-top: 6px solid var(--primary); /* لمسة خضراء بسيطة */
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gov-logo {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .header-title h2 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* ======= الحاوية الرئيسية ======= */
+        .container {
+            width: 92%;
+            max-width: 700px;
+            margin: 30px auto 50px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            color: var(--primary);
+            border-right: 5px solid var(--accent);
+            padding-right: 15px;
+            margin: 30px 0 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: #f0f9f4;
+            padding: 10px 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        
+        select, input, textarea {
+            width: 100%; padding: 14px; border: 1.5px solid #eee;
+            border-radius: 12px; font-family: 'Cairo'; font-size: 1rem;
+            transition: 0.3s; background: #fafafa; box-sizing: border-box;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+            background: #fff; outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 108, 53, 0.05);
+        }
+
+        /* ======= شاشة الانطلاق والأنميشن ======= */
+        #introPage {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--white); z-index: 3000;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+
+        .intro-content { text-align: center; padding: 20px; max-width: 450px; }
+
+        .bus-container {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: busArrival 2.5s ease-out forwards, busVibrate 0.3s ease-in-out infinite 2.5s;
+            transform-origin: bottom center;
+        }
+
+        @keyframes busArrival {
+            0% { transform: translateX(100vw) scale(0.5); opacity: 0; }
+            70% { transform: translateX(-5vw) scale(1.1); opacity: 1; }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes busVibrate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+
+        /* ======= بطاقة المدرسة والمكونات ======= */
+        .school-card {
+            background: #fff; border: 2px solid var(--accent); border-radius: 15px;
+            padding: 20px; margin: 20px 0; display: none;
+            animation: slideDown 0.4s ease-out; position: relative; overflow: hidden;
+        }
+
+        .school-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .info-item b { color: var(--primary); font-size: 0.8rem; display: block; }
+        .info-item span { font-weight: 700; font-size: 1rem; }
+
+        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        .checkbox-item {
+            cursor: pointer; border: 1.5px solid #eee; border-radius: 15px; padding: 15px 10px;
+            text-align: center; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fff;
+        }
+        .checkbox-item input { display: none; }
+        .checkbox-item:has(input:checked) { border-color: var(--primary); background: #e8f5e9; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,108,53,0.1); }
+
+        .btn { width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: white; margin-top: 25px; }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        #status { margin-top: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="introPage">
+        <div class="intro-content">
+            <div class="bus-container">🚌</div>
+            <h2 style="color: var(--primary); margin-bottom: 10px;">حملة حتى تصل بأمان</h2>
+            <p style="color: #666;">نظام رفع تقارير السلامة في النقل المدرسي - الإدارة العامة لتعليم بمنطقة عسير</p>
+            <button class="btn" id="startBtn" onclick="document.getElementById('introPage').style.display='none'">ابدأ التعبئة الآن</button>
+        </div>
+    </div>
+
+    <header>
+        <img src="https://www.moe.gov.sa/ar/Education/GeneralEducation/Documents/moe-logo.png" alt="شعار وزارة التعليم" class="gov-logo">
+        <div class="header-title">
+            <h2>الإدارة العامة لتعليم بمنطقة عسير</h2>
+            <div class="header-subtitle">تقرير حملة السلامة في النقل المدرسي (حتى تصل بأمان)</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">أولاً: اختيار المنشأة</div>
+        <div class="form-group">
+            <label>المحافظة:</label>
+            <select id="cityFilter" onchange="updateTypeFilter()">
+                <option value="">جاري جلب المحافظات...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>النوع:</label>
+            <select id="typeFilter" onchange="updateSchools()">
+                <option value="">اختر النوع...</option>
+            </select>
+        </div>
+        
+        <div id="searchContainer">
+            <div class="form-group">
+                <label>البحث واختيار المدرسة:</label>
+                <input type="text" id="schoolSearch" placeholder="🔍 اكتب اسم المدرسة للبحث..." oninput="filterSchoolsList()" style="margin-bottom: 8px; border-color: var(--accent);">
+                <select id="schoolSelect" onchange="handleSchoolSelection()" size="5">
+                    <option value="">اختر المدرسة من القائمة...</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="schoolCard" class="school-card">
+            <div class="school-info-grid">
+                <div class="info-item"><b>المدرسة المحددة</b><span id="cardSchoolName">-</span></div>
+                <div class="info-item"><b>المحافظة</b><span id="cardCity">-</span></div>
+                <div class="info-item"><b>المرحلة / النوع</b><span id="cardType">-</span></div>
+                <div class="info-item"><b>حالة التقرير</b><span id="cardStatusLabel">-</span></div>
+            </div>
+            <button type="button" onclick="editSchoolSelection()" style="margin-top:15px; background:none; border:none; color:var(--primary); cursor:pointer; font-size:0.85rem; text-decoration:underline; font-family:'Cairo'; font-weight:700;">
+                🔄 تعديل اختيار المدرسة
+            </button>
+        </div>
+
+        <div id="mainForm" style="display:none;">
+            <div class="section-title">ثانياً: بيانات المسؤول</div>
+            <div class="form-group">
+                <label>اسم منسق/ة الأمن والسلامة:</label>
+                <input type="text" id="cName" placeholder="الاسم الثلاثي">
+            </div>
+            <div class="form-group">
+                <label>الكادر:</label>
+                <select id="kader">
+                    <option value="إداري">إداري</option>
+                    <option value="تعليمي">تعليمي</option>
+                </select>
+            </div>
+
+            <div class="section-title">ثالثاً: الإحصائيات</div>
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex:1;">
+                    <label>عدد الطلاب المستفيدين:</label>
+                    <input type="number" id="students" placeholder="0">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>عدد البرامج المنفذة:</label>
+                    <input type="number" id="progs" placeholder="0">
+                </div>
+            </div>
+
+            <div class="section-title">رابعاً: البرامج المقدمة</div>
+            <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" value="مسابقات"><span>🏆</span><span>مسابقات</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="عروض مرئية"><span>🎬</span><span>عروض مرئية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="إذاعة مدرسية"><span>📢</span><span>إذاعة مدرسية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="دورات تثقيفية"><span>📚</span><span>دورات تثقيفية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="تطبيقات ميدانية"><span>🚶</span><span>تطبيقات ميدانية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="أخرى" id="oCheck" onchange="toggleOther(this)"><span>✨</span><span>أخرى</span></label>
+            </div>
+            <input type="text" id="oDet" style="display:none; margin-top:15px;" placeholder="يرجى ذكر تفاصيل البرامج الأخرى...">
+
+            <div class="section-title">خامساً: ملف التقرير</div>
+            <div class="form-group">
+                <label>ارفق ملف التقرير (PDF فقط):</label>
+                <input type="file" id="pdfFile" accept="application/pdf">
+            </div>
+
+            <button class="btn" id="sBtn" onclick="sendData()">حفظ وإرسال التقرير النهائي</button>
+        </div>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwxCs--HZPZhVoaIYuZziAlfxLtA2cNOiKoyJ0SMxskvstff02_nK7ZNmjKseBBwO6jgw/exec";
+        let allData = [];
+        let currentFilteredSchools = [];
+
+        async function init() {
+            try {
+                const res = await fetch(API_URL + "?action=getSchools");
+                allData = await res.json();
+                if (allData.error) throw new Error(allData.error);
+                
+                const cities = [...new Set(allData.map(s => s[0]))].filter(Boolean).sort();
+                const cf = document.getElementById("cityFilter");
+                cf.innerHTML = '<option value="">اختر المحافظة...</option>';
+                cities.forEach(c => cf.innerHTML += `<option value="${c}">${c}</option>`);
+            } catch (e) {
+                document.getElementById("status").innerHTML = `<p style="color:red">❌ فشل تحميل البيانات. يرجى التأكد من اتصال الإنترنت.</p>`;
+            }
+        }
+
+        function updateTypeFilter() {
+            const city = document.getElementById("cityFilter").value;
+            const tf = document.getElementById("typeFilter");
+            tf.innerHTML = '<option value="">اختر النوع...</option>';
+            resetFormState();
+            if(!city) return;
+            const types = [...new Set(allData.filter(s => s[0] === city).map(s => s[2]))].filter(Boolean);
+            types.forEach(t => tf.innerHTML += `<option value="${t}">${t}</option>`);
+        }
+
+        function updateSchools() {
+            const city = document.getElementById("cityFilter").value;
+            const type = document.getElementById("typeFilter").value;
+            resetFormState();
+            if(!city || !type) return;
+            currentFilteredSchools = allData.filter(s => s[0] === city && s[2] === type);
+            renderSchools(currentFilteredSchools);
+        }
+
+        function renderSchools(list) {
+            const ss = document.getElementById("schoolSelect");
+            ss.innerHTML = '<option value="">اختر المدرسة من القائمة...</option>';
+            list.forEach(s => {
+                const isSubmitted = s[3] === true;
+                const option = document.createElement("option");
+                option.value = s[1];
+                option.textContent = s[1] + (isSubmitted ? " ✅ (تم الرفع مسبقاً)" : "");
+                option.dataset.submitted = isSubmitted;
+                ss.appendChild(option);
+            });
+        }
+
+        function filterSchoolsList() {
+            const query = document.getElementById("schoolSearch").value.toLowerCase();
+            const filtered = currentFilteredSchools.filter(s => s[1].toLowerCase().includes(query));
+            renderSchools(filtered);
+        }
+
+        function handleSchoolSelection() {
+            const ss = document.getElementById("schoolSelect");
+            const selectedOption = ss.options[ss.selectedIndex];
+            if (!selectedOption || ss.value === "") { resetFormState(); return; }
+
+            const schoolName = selectedOption.value;
+            const isSubmitted = selectedOption.dataset.submitted === "true";
+
+            document.getElementById("cardSchoolName").textContent = schoolName;
+            document.getElementById("cardCity").textContent = document.getElementById("cityFilter").value;
+            document.getElementById("cardType").textContent = document.getElementById("typeFilter").value;
+            
+            document.getElementById("schoolCard").style.display = "block";
+            document.getElementById("searchContainer").style.display = "none";
+
+            if (isSubmitted) {
+                document.getElementById("mainForm").style.display = "none";
+                document.getElementById("cardStatusLabel").textContent = "❌ تم الرفع مسبقاً";
+                document.getElementById("cardStatusLabel").style.color = "var(--danger)";
+                document.getElementById("status").innerHTML = `<div style="background:#ffebee; color:#c62828; padding:15px; border-radius:12px; border:1px solid #ffcdd2;">⚠️ عذراً، هذا التقرير مرفوع مسبقاً للمدرسة المختارة.</div>`;
+            } else {
+                document.getElementById("mainForm").style.display = "block";
+                document.getElementById("cardStatusLabel").textContent = "✅ متاح للرفع";
+                document.getElementById("cardStatusLabel").style.color = "var(--accent)";
+                document.getElementById("status").innerHTML = "";
+            }
+        }
+
+        function editSchoolSelection() {
+            document.getElementById("schoolCard").style.display = "none";
+            document.getElementById("mainForm").style.display = "none";
+            document.getElementById("searchContainer").style.display = "block";
+            document.getElementById("schoolSelect").value = "";
+            document.getElementById("status").innerHTML = "";
+        }
+
+        function resetFormState() {
+            document.getElementById("schoolSelect").innerHTML = '<option value="">اختر المدرسة...</option>';
+            document.getElementById("schoolCard").style.display = "none";
+            document.getElementById("mainForm").style.display = "none";
+            document.getElementById("searchContainer").style.display = "block";
+            document.getElementById("status").innerHTML = "";
+            document.getElementById("schoolSearch").value = "";
+        }
+
+        function toggleOther(chk) {
+            document.getElementById("oDet").style.display = chk.checked ? "block" : "none";
+        }
+
+        async function sendData() {
+            const file = document.getElementById("pdfFile").files[0];
+            const name = document.getElementById("cName").value;
+            if(!file || !name) return alert("يرجى تعبئة كافة الحقول ورفع التقرير");
+
+            const btn = document.getElementById("sBtn");
+            const st = document.getElementById("status");
+            btn.disabled = true;
+            st.innerHTML = "⏳ جاري إرسال التقرير... يرجى عدم إغلاق الصفحة";
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const payload = {
+                    city: document.getElementById("cityFilter").value,
+                    type: document.getElementById("typeFilter").value,
+                    schoolName: document.getElementById("schoolSelect").value,
+                    coordinator: name,
+                    kader: document.getElementById("kader").value,
+                    beneficiaries: document.getElementById("students").value || 0,
+                    programsCount: document.getElementById("progs").value || 0,
+                    selectedPrograms: Array.from(document.querySelectorAll('.checkbox-grid input:checked')).map(i=>i.value).join(", "),
+                    otherDetails: document.getElementById("oDet").value,
+                    base64Data: e.target.result.split(",")[1]
+                };
+
+                try {
+                    const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+                    const out = await res.json();
+                    if(out.status === "success") {
+                        st.innerHTML = "<div style='background:#e8f5e9; color:#2e7d32; padding:20px; border-radius:15px;'>✅ تمت عملية الرفع بنجاح، شكراً لكم!</div>";
+                        document.getElementById("mainForm").style.display = "none";
+                        init();
+                    } else { throw new Error(out.message); }
+                } catch(err) {
+                    st.innerHTML = `<p style="color:red">❌ حدث خطأ أثناء الرفع: ${err.message}</p>`;
+                    btn.disabled = false;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        init();
+    </script>
+</body>
+</html>
