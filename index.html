@@ -16,10 +16,9 @@
             --danger: #e74c3c;
         }
 
-        /* تحسينات عامة لتجربة التطبيق */
         * {
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند النقر في الجوال */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -28,10 +27,9 @@
             margin: 0;
             color: var(--text);
             direction: rtl;
-            overscroll-behavior-y: none; /* منع السحب للتحديث في بعض المتصفحات ليعطي إحساس التطبيق */
+            overscroll-behavior-y: none;
         }
 
-        /* ======= الهيدر ======= */
         header {
             background: var(--white);
             padding: 20px 15px;
@@ -47,133 +45,80 @@
             z-index: 100;
         }
 
-        .gov-logo {
-            max-width: 130px;
-            height: auto;
-        }
+        .gov-logo { max-width: 130px; height: auto; }
+        .header-title h2 { margin: 0; color: var(--primary); font-size: 1.2rem; font-weight: 700; }
+        .header-subtitle { font-size: 0.85rem; color: #666; font-weight: 600; }
 
-        .header-title h2 {
-            margin: 0;
-            color: var(--primary);
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .header-subtitle {
-            font-size: 0.85rem;
-            color: #666;
-            font-weight: 600;
-        }
-
-        /* ======= الحاوية الرئيسية ======= */
         .container {
-            width: 95%;
-            max-width: 700px;
-            margin: 20px auto 40px;
-            background: var(--white);
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            width: 95%; max-width: 700px; margin: 20px auto 40px;
+            background: var(--white); padding: 25px 20px;
+            border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.04);
         }
 
         .section-title {
-            color: var(--primary);
-            border-right: 4px solid var(--accent);
-            padding-right: 12px;
-            margin: 25px 0 15px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            background: #f0f9f4;
-            padding: 8px 12px;
+            color: var(--primary); border-right: 4px solid var(--accent);
+            padding-right: 12px; margin: 25px 0 15px; font-size: 1.05rem;
+            font-weight: 700; background: #f0f9f4; padding: 8px 12px;
             border-radius: 0 8px 8px 0;
         }
 
         .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.9rem; color: #34495e; }
         
-        label { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-weight: 700; 
-            font-size: 0.9rem; 
-            color: #34495e;
-        }
-        
-        /* ======= تحسين الحقول والقوائم المنسدلة (شكل التطبيق) ======= */
         select, input, textarea {
-            width: 100%; 
-            padding: 14px 16px; 
-            border: 1.5px solid #e0e6ed;
-            border-radius: 12px; 
-            font-family: 'Cairo'; 
-            font-size: 0.95rem;
-            transition: all 0.3s ease; 
-            background: #f8fafc; 
-            color: var(--text);
-            appearance: none; /* إزالة الشكل الافتراضي للمتصفح */
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            width: 100%; padding: 14px 16px; border: 1.5px solid #e0e6ed;
+            border-radius: 12px; font-family: 'Cairo'; font-size: 0.95rem;
+            transition: all 0.3s ease; background: #f8fafc; color: var(--text);
+            appearance: none; -webkit-appearance: none; -moz-appearance: none;
         }
 
-        /* إضافة سهم مخصص للقوائم المنسدلة العادية */
         select:not([multiple]):not([size]) {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006c35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: left 15px center;
-            background-size: 18px;
-            padding-left: 45px; /* ترك مساحة للسهم في اليسار */
+            background-repeat: no-repeat; background-position: left 15px center; background-size: 18px;
+            padding-left: 45px;
         }
 
         select:focus, input:focus, textarea:focus {
-            border-color: var(--primary);
-            background: #fff; 
-            outline: none;
+            border-color: var(--primary); background: #fff; outline: none;
             box-shadow: 0 0 0 4px rgba(0, 108, 53, 0.1);
         }
 
-        /* تحسين قائمة المدارس (تظهر كقائمة تطبيق قابلة للتمرير) */
-        select[size] {
-            padding: 5px;
-            height: 180px;
-            background: #fff;
+        /* ======= القائمة المنسدلة الذكية للبحث (التعديل الجديد) ======= */
+        .custom-search-wrapper { position: relative; }
+        .search-input-container { position: relative; }
+        .search-input-container input { padding-left: 35px; border-color: var(--accent); background: #fff;}
+        .search-icon-arrow {
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+            color: var(--primary); pointer-events: none; font-size: 0.8rem;
         }
-
-        select[size] option {
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            border-bottom: 1px solid #f1f1f1;
-            font-size: 0.95rem;
-            transition: 0.2s;
+        .dropdown-list {
+            display: none; position: absolute; width: 100%; max-height: 220px; overflow-y: auto;
+            background: #fff; border: 1.5px solid var(--primary); border-top: none;
+            border-radius: 0 0 12px 12px; z-index: 1000; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin: 0; padding: 0; list-style: none; top: 98%;
         }
-
-        select[size] option:last-child { border-bottom: none; }
-        
-        select[size] option:checked {
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
+        .dropdown-list li {
+            padding: 14px 15px; border-bottom: 1px solid #f1f1f1; cursor: pointer; 
+            font-size: 0.95rem; transition: background 0.2s;
         }
+        .dropdown-list li:last-child { border-bottom: none; }
+        .dropdown-list li:hover, .dropdown-list li:active { background: #e8f5e9; color: var(--primary-dark); font-weight: bold; }
+        .dropdown-list li.submitted-item { color: #888; background: #fafafa; font-weight: normal; }
 
-        /* تخصيص شريط التمرير (Scrollbar) للقائمة المنسدلة */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        /* ======= شاشة الانطلاق والأنميشن ======= */
         #introPage {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--white); z-index: 3000;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            background: var(--white); z-index: 3000; display: flex; 
+            align-items: center; justify-content: center; overflow: hidden;
         }
 
         .intro-content { text-align: center; padding: 20px; max-width: 450px; width: 90%; }
-
         .bus-container {
-            font-size: 5rem;
-            margin-bottom: 15px;
-            display: inline-block;
+            font-size: 5rem; margin-bottom: 15px; display: inline-block;
             animation: busArrival 2.5s ease-out forwards, busVibrate 0.3s ease-in-out infinite 2.5s;
             transform-origin: bottom center;
         }
@@ -183,18 +128,12 @@
             70% { transform: translateX(-5vw) scale(1.1); opacity: 1; }
             100% { transform: translateX(0) scale(1); opacity: 1; }
         }
+        @keyframes busVibrate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 
-        @keyframes busVibrate {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-        }
-
-        /* ======= بطاقة المدرسة والمكونات ======= */
         .school-card {
             background: #fff; border: 1.5px solid var(--accent); border-radius: 16px;
-            padding: 18px; margin: 20px 0; display: none;
-            animation: slideDown 0.4s ease-out; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.08);
+            padding: 18px; margin: 20px 0; display: none; animation: slideDown 0.4s ease-out; 
+            position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.08);
         }
 
         .school-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -207,27 +146,12 @@
             text-align: center; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; background: #f8fafc;
         }
         .checkbox-item input { display: none; }
-        .checkbox-item:has(input:checked) { 
-            border-color: var(--primary); 
-            background: #e8f5e9; 
-            transform: scale(0.98); /* تأثير ضغط */
-            box-shadow: 0 4px 10px rgba(0,108,53,0.1); 
-        }
+        .checkbox-item:has(input:checked) { border-color: var(--primary); background: #e8f5e9; transform: scale(0.98); box-shadow: 0 4px 10px rgba(0,108,53,0.1); }
 
-        /* الأزرار بشكل تطبيقات الجوال */
         .btn { 
-            width: 100%; 
-            padding: 16px; 
-            border: none; 
-            border-radius: 14px; 
-            font-weight: 700; 
-            font-size: 1.1rem; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            background: var(--primary); 
-            color: white; 
-            margin-top: 20px; 
-            box-shadow: 0 4px 15px rgba(0,108,53,0.2);
+            width: 100%; padding: 16px; border: none; border-radius: 14px; 
+            font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; 
+            background: var(--primary); color: white; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,108,53,0.2);
         }
         .btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,108,53,0.2); }
         .btn:disabled { background: #b2bec3; cursor: not-allowed; box-shadow: none; transform: none; }
@@ -235,10 +159,9 @@
         @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
         #status { margin-top: 20px; text-align: center; font-weight: 600; font-size: 0.9rem;}
         
-        /* ضبط إضافي للشاشات الصغيرة جدًا */
         @media (max-width: 400px) {
             .container { padding: 20px 15px; }
-            .school-info-grid { grid-template-columns: 1fr; } /* عمود واحد في الشاشات الصغيرة جداً */
+            .school-info-grid { grid-template-columns: 1fr; }
             .btn { font-size: 1rem; padding: 14px; }
         }
     </style>
@@ -278,12 +201,14 @@
         </div>
         
         <div id="searchContainer">
-            <div class="form-group">
+            <div class="form-group custom-search-wrapper">
                 <label>البحث واختيار المدرسة:</label>
-                <input type="text" id="schoolSearch" placeholder="🔍 اكتب اسم المدرسة للبحث..." oninput="filterSchoolsList()" style="margin-bottom: 10px;">
-                <select id="schoolSelect" onchange="handleSchoolSelection()" size="5">
-                    <option value="">اختر المدرسة من القائمة...</option>
-                </select>
+                <div class="search-input-container">
+                    <input type="text" id="schoolSearchInput" placeholder="🔍 اضغط للبحث واختيار المدرسة..." 
+                           oninput="filterDropdownList()" onfocus="showDropdown()" autocomplete="off">
+                    <span class="search-icon-arrow">▼</span>
+                </div>
+                <ul id="schoolDropdownList" class="dropdown-list"></ul>
             </div>
         </div>
 
@@ -383,35 +308,52 @@
             resetFormState();
             if(!city || !type) return;
             currentFilteredSchools = allData.filter(s => s[0] === city && s[2] === type);
-            renderSchools(currentFilteredSchools);
+            renderDropdownItems(currentFilteredSchools);
         }
 
-        function renderSchools(list) {
-            const ss = document.getElementById("schoolSelect");
-            ss.innerHTML = '<option value="" disabled selected>اختر المدرسة من القائمة...</option>';
+        /* ======= دوال القائمة المنسدلة الذكية ======= */
+        function showDropdown() {
+            if(currentFilteredSchools.length > 0) {
+                document.getElementById("schoolDropdownList").style.display = "block";
+                document.getElementById("schoolSearchInput").style.borderRadius = "12px 12px 0 0";
+            }
+        }
+
+        function hideDropdown() {
+            document.getElementById("schoolDropdownList").style.display = "none";
+            document.getElementById("schoolSearchInput").style.borderRadius = "12px";
+        }
+
+        function renderDropdownItems(list) {
+            const listElement = document.getElementById("schoolDropdownList");
+            listElement.innerHTML = '';
+            
+            if(list.length === 0) {
+                listElement.innerHTML = '<li style="text-align:center; color:#e74c3c; cursor:default;">لا توجد مدارس مطابقة للبحث</li>';
+                return;
+            }
+
             list.forEach(s => {
                 const isSubmitted = s[3] === true;
-                const option = document.createElement("option");
-                option.value = s[1];
-                option.textContent = s[1] + (isSubmitted ? " ✅ (تم الرفع)" : "");
-                option.dataset.submitted = isSubmitted;
-                ss.appendChild(option);
+                const li = document.createElement("li");
+                li.textContent = s[1] + (isSubmitted ? " ✅ (تم الرفع)" : "");
+                if(isSubmitted) li.classList.add("submitted-item");
+                
+                li.onclick = function() { selectSchool(s[1], isSubmitted); };
+                listElement.appendChild(li);
             });
         }
 
-        function filterSchoolsList() {
-            const query = document.getElementById("schoolSearch").value.toLowerCase();
+        function filterDropdownList() {
+            const query = document.getElementById("schoolSearchInput").value.toLowerCase();
             const filtered = currentFilteredSchools.filter(s => s[1].toLowerCase().includes(query));
-            renderSchools(filtered);
+            renderDropdownItems(filtered);
+            showDropdown();
         }
 
-        function handleSchoolSelection() {
-            const ss = document.getElementById("schoolSelect");
-            const selectedOption = ss.options[ss.selectedIndex];
-            if (!selectedOption || ss.value === "") { resetFormState(); return; }
-
-            const schoolName = selectedOption.value;
-            const isSubmitted = selectedOption.dataset.submitted === "true";
+        function selectSchool(schoolName, isSubmitted) {
+            document.getElementById("schoolSearchInput").value = schoolName;
+            hideDropdown();
 
             document.getElementById("cardSchoolName").textContent = schoolName;
             document.getElementById("cardCity").textContent = document.getElementById("cityFilter").value;
@@ -433,21 +375,33 @@
             }
         }
 
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', function(event) {
+            const wrapper = document.querySelector('.custom-search-wrapper');
+            if (wrapper && !wrapper.contains(event.target)) {
+                hideDropdown();
+            }
+        });
+
+        /* ======================================= */
+
         function editSchoolSelection() {
             document.getElementById("schoolCard").style.display = "none";
             document.getElementById("mainForm").style.display = "none";
             document.getElementById("searchContainer").style.display = "block";
-            document.getElementById("schoolSelect").value = "";
+            document.getElementById("schoolSearchInput").value = "";
             document.getElementById("status").innerHTML = "";
+            renderDropdownItems(currentFilteredSchools); // إعادة تعيين القائمة
         }
 
         function resetFormState() {
-            document.getElementById("schoolSelect").innerHTML = '<option value="">اختر المدرسة...</option>';
+            hideDropdown();
+            document.getElementById("schoolDropdownList").innerHTML = '';
             document.getElementById("schoolCard").style.display = "none";
             document.getElementById("mainForm").style.display = "none";
             document.getElementById("searchContainer").style.display = "block";
             document.getElementById("status").innerHTML = "";
-            document.getElementById("schoolSearch").value = "";
+            document.getElementById("schoolSearchInput").value = "";
         }
 
         function toggleOther(chk) {
@@ -457,7 +411,10 @@
         async function sendData() {
             const file = document.getElementById("pdfFile").files[0];
             const name = document.getElementById("cName").value;
-            if(!file || !name) return alert("يرجى تعبئة كافة الحقول ورفع التقرير");
+            // القراءة من البطاقة لضمان أن الاسم المختار هو الذي يتم رفعه
+            const finalSchoolName = document.getElementById("cardSchoolName").textContent;
+            
+            if(!file || !name || finalSchoolName === "-") return alert("يرجى تعبئة كافة الحقول ورفع التقرير");
 
             const btn = document.getElementById("sBtn");
             const st = document.getElementById("status");
@@ -469,7 +426,7 @@
                 const payload = {
                     city: document.getElementById("cityFilter").value,
                     type: document.getElementById("typeFilter").value,
-                    schoolName: document.getElementById("schoolSelect").value,
+                    schoolName: finalSchoolName,
                     coordinator: name,
                     kader: document.getElementById("kader").value,
                     beneficiaries: document.getElementById("students").value || 0,
