@@ -2,18 +2,24 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تقارير حملة حتى تصل بأمان | الإدارة العامة للاعليم بمنطقة عسير </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>نظام تقارير حملة حتى تصل بأمان | الإدارة العامة للتعليم بمنطقة عسير</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #006c35;
             --primary-dark: #004d27;
             --accent: #2ecc71;
-            --bg: #f8fafb;
+            --bg: #f4f7f6;
             --white: #ffffff;
             --text: #2c3e50;
             --danger: #e74c3c;
+        }
+
+        /* تحسينات عامة لتجربة التطبيق */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند النقر في الجوال */
         }
 
         body {
@@ -22,76 +28,137 @@
             margin: 0;
             color: var(--text);
             direction: rtl;
+            overscroll-behavior-y: none; /* منع السحب للتحديث في بعض المتصفحات ليعطي إحساس التطبيق */
         }
 
-        /* ======= الهيدر الجديد المطور ======= */
+        /* ======= الهيدر ======= */
         header {
             background: var(--white);
-            padding: 25px 20px;
+            padding: 20px 15px;
             text-align: center;
-            border-top: 6px solid var(--primary); /* لمسة خضراء بسيطة */
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .gov-logo {
-            max-width: 150px;
+            max-width: 130px;
             height: auto;
         }
 
         .header-title h2 {
             margin: 0;
             color: var(--primary);
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
         .header-subtitle {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #666;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         /* ======= الحاوية الرئيسية ======= */
         .container {
-            width: 92%;
+            width: 95%;
             max-width: 700px;
-            margin: 30px auto 50px;
+            margin: 20px auto 40px;
             background: var(--white);
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
         }
 
         .section-title {
             color: var(--primary);
-            border-right: 5px solid var(--accent);
-            padding-right: 15px;
-            margin: 30px 0 20px;
-            font-size: 1.1rem;
+            border-right: 4px solid var(--accent);
+            padding-right: 12px;
+            margin: 25px 0 15px;
+            font-size: 1.05rem;
             font-weight: 700;
             background: #f0f9f4;
-            padding: 10px 15px;
-            border-radius: 0 10px 10px 0;
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 0;
         }
 
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .form-group { margin-bottom: 18px; }
         
+        label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            color: #34495e;
+        }
+        
+        /* ======= تحسين الحقول والقوائم المنسدلة (شكل التطبيق) ======= */
         select, input, textarea {
-            width: 100%; padding: 14px; border: 1.5px solid #eee;
-            border-radius: 12px; font-family: 'Cairo'; font-size: 1rem;
-            transition: 0.3s; background: #fafafa; box-sizing: border-box;
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 1.5px solid #e0e6ed;
+            border-radius: 12px; 
+            font-family: 'Cairo'; 
+            font-size: 0.95rem;
+            transition: all 0.3s ease; 
+            background: #f8fafc; 
+            color: var(--text);
+            appearance: none; /* إزالة الشكل الافتراضي للمتصفح */
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
-        select:focus, input:focus {
-            border-color: var(--primary);
-            background: #fff; outline: none;
-            box-shadow: 0 0 0 4px rgba(0, 108, 53, 0.05);
+        /* إضافة سهم مخصص للقوائم المنسدلة العادية */
+        select:not([multiple]):not([size]) {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006c35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 18px;
+            padding-left: 45px; /* ترك مساحة للسهم في اليسار */
         }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--primary);
+            background: #fff; 
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 108, 53, 0.1);
+        }
+
+        /* تحسين قائمة المدارس (تظهر كقائمة تطبيق قابلة للتمرير) */
+        select[size] {
+            padding: 5px;
+            height: 180px;
+            background: #fff;
+        }
+
+        select[size] option {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+
+        select[size] option:last-child { border-bottom: none; }
+        
+        select[size] option:checked {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        /* تخصيص شريط التمرير (Scrollbar) للقائمة المنسدلة */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
         /* ======= شاشة الانطلاق والأنميشن ======= */
         #introPage {
@@ -101,11 +168,11 @@
             overflow: hidden;
         }
 
-        .intro-content { text-align: center; padding: 20px; max-width: 450px; }
+        .intro-content { text-align: center; padding: 20px; max-width: 450px; width: 90%; }
 
         .bus-container {
-            font-size: 6rem;
-            margin-bottom: 20px;
+            font-size: 5rem;
+            margin-bottom: 15px;
             display: inline-block;
             animation: busArrival 2.5s ease-out forwards, busVibrate 0.3s ease-in-out infinite 2.5s;
             transform-origin: bottom center;
@@ -124,29 +191,56 @@
 
         /* ======= بطاقة المدرسة والمكونات ======= */
         .school-card {
-            background: #fff; border: 2px solid var(--accent); border-radius: 15px;
-            padding: 20px; margin: 20px 0; display: none;
+            background: #fff; border: 1.5px solid var(--accent); border-radius: 16px;
+            padding: 18px; margin: 20px 0; display: none;
             animation: slideDown 0.4s ease-out; position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.08);
         }
 
-        .school-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .info-item b { color: var(--primary); font-size: 0.8rem; display: block; }
-        .info-item span { font-weight: 700; font-size: 1rem; }
+        .school-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .info-item b { color: var(--primary); font-size: 0.75rem; display: block; opacity: 0.8; }
+        .info-item span { font-weight: 700; font-size: 0.95rem; display: block; margin-top: 3px; }
 
-        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
         .checkbox-item {
-            cursor: pointer; border: 1.5px solid #eee; border-radius: 15px; padding: 15px 10px;
-            text-align: center; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fff;
+            cursor: pointer; border: 1.5px solid #e0e6ed; border-radius: 12px; padding: 12px 8px;
+            text-align: center; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; background: #f8fafc;
         }
         .checkbox-item input { display: none; }
-        .checkbox-item:has(input:checked) { border-color: var(--primary); background: #e8f5e9; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,108,53,0.1); }
+        .checkbox-item:has(input:checked) { 
+            border-color: var(--primary); 
+            background: #e8f5e9; 
+            transform: scale(0.98); /* تأثير ضغط */
+            box-shadow: 0 4px 10px rgba(0,108,53,0.1); 
+        }
 
-        .btn { width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: white; margin-top: 25px; }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        /* الأزرار بشكل تطبيقات الجوال */
+        .btn { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            background: var(--primary); 
+            color: white; 
+            margin-top: 20px; 
+            box-shadow: 0 4px 15px rgba(0,108,53,0.2);
+        }
+        .btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,108,53,0.2); }
+        .btn:disabled { background: #b2bec3; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        #status { margin-top: 20px; text-align: center; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        #status { margin-top: 20px; text-align: center; font-weight: 600; font-size: 0.9rem;}
+        
+        /* ضبط إضافي للشاشات الصغيرة جدًا */
+        @media (max-width: 400px) {
+            .container { padding: 20px 15px; }
+            .school-info-grid { grid-template-columns: 1fr; } /* عمود واحد في الشاشات الصغيرة جداً */
+            .btn { font-size: 1rem; padding: 14px; }
+        }
     </style>
 </head>
 <body>
@@ -154,16 +248,16 @@
     <div id="introPage">
         <div class="intro-content">
             <div class="bus-container">🚌</div>
-            <h2 style="color: var(--primary); margin-bottom: 10px;">حملة حتى تصل بأمان</h2>
-            <p style="color: #666;">نظام رفع تقارير السلامة في النقل المدرسي - الإدارة العامة لتعليم بمنطقة عسير</p>
+            <h2 style="color: var(--primary); margin-bottom: 10px; font-weight: 800;">حملة حتى تصل بأمان</h2>
+            <p style="color: #666; font-size: 0.95rem; line-height: 1.6;">نظام رفع تقارير السلامة في النقل المدرسي<br>الإدارة العامة للتعليم بمنطقة عسير</p>
             <button class="btn" id="startBtn" onclick="document.getElementById('introPage').style.display='none'">ابدأ التعبئة الآن</button>
         </div>
     </div>
 
     <header>
-        <img src="logo.png" alt="شعار وزارة التعليم" class="gov-logo">
+        <img src="logo.png" alt="شعار وزارة التعليم" class="gov-logo" onerror="this.style.display='none'">
         <div class="header-title">
-            <h2>الإدارة العامة لتعليم بمنطقة عسير</h2>
+            <h2>الإدارة العامة للتعليم بمنطقة عسير</h2>
             <div class="header-subtitle">تقرير حملة السلامة في النقل المدرسي (حتى تصل بأمان)</div>
         </div>
     </header>
@@ -186,7 +280,7 @@
         <div id="searchContainer">
             <div class="form-group">
                 <label>البحث واختيار المدرسة:</label>
-                <input type="text" id="schoolSearch" placeholder="🔍 اكتب اسم المدرسة للبحث..." oninput="filterSchoolsList()" style="margin-bottom: 8px; border-color: var(--accent);">
+                <input type="text" id="schoolSearch" placeholder="🔍 اكتب اسم المدرسة للبحث..." oninput="filterSchoolsList()" style="margin-bottom: 10px;">
                 <select id="schoolSelect" onchange="handleSchoolSelection()" size="5">
                     <option value="">اختر المدرسة من القائمة...</option>
                 </select>
@@ -200,8 +294,8 @@
                 <div class="info-item"><b>المرحلة / النوع</b><span id="cardType">-</span></div>
                 <div class="info-item"><b>حالة التقرير</b><span id="cardStatusLabel">-</span></div>
             </div>
-            <button type="button" onclick="editSchoolSelection()" style="margin-top:15px; background:none; border:none; color:var(--primary); cursor:pointer; font-size:0.85rem; text-decoration:underline; font-family:'Cairo'; font-weight:700;">
-                🔄 تعديل اختيار المدرسة
+            <button type="button" onclick="editSchoolSelection()" style="margin-top:15px; background:none; border:none; color:var(--primary); cursor:pointer; font-size:0.9rem; text-decoration:none; font-family:'Cairo'; font-weight:700; padding: 5px 0;">
+                <span style="font-size: 1.1rem; vertical-align: middle;">🔄</span> تعديل اختيار المدرسة
             </button>
         </div>
 
@@ -220,32 +314,32 @@
             </div>
 
             <div class="section-title">ثالثاً: الإحصائيات</div>
-            <div style="display: flex; gap: 15px;">
+            <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex:1;">
-                    <label>عدد الطلاب المستفيدين:</label>
+                    <label>الطلاب المستفيدين:</label>
                     <input type="number" id="students" placeholder="0">
                 </div>
                 <div class="form-group" style="flex:1;">
-                    <label>عدد البرامج المنفذة:</label>
+                    <label>البرامج المنفذة:</label>
                     <input type="number" id="progs" placeholder="0">
                 </div>
             </div>
 
             <div class="section-title">رابعاً: البرامج المقدمة</div>
             <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" value="مسابقات"><span>🏆</span><span>مسابقات</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="عروض مرئية"><span>🎬</span><span>عروض مرئية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="إذاعة مدرسية"><span>📢</span><span>إذاعة مدرسية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="دورات تثقيفية"><span>📚</span><span>دورات تثقيفية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="تطبيقات ميدانية"><span>🚶</span><span>تطبيقات ميدانية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="أخرى" id="oCheck" onchange="toggleOther(this)"><span>✨</span><span>أخرى</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="مسابقات"><span style="font-size: 1.2rem;">🏆</span><span>مسابقات</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="عروض مرئية"><span style="font-size: 1.2rem;">🎬</span><span>عروض مرئية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="إذاعة مدرسية"><span style="font-size: 1.2rem;">📢</span><span>إذاعة مدرسية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="دورات تثقيفية"><span style="font-size: 1.2rem;">📚</span><span>دورات تثقيفية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="تطبيقات ميدانية"><span style="font-size: 1.2rem;">🚶</span><span>تطبيقات ميدانية</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="أخرى" id="oCheck" onchange="toggleOther(this)"><span style="font-size: 1.2rem;">✨</span><span>أخرى</span></label>
             </div>
             <input type="text" id="oDet" style="display:none; margin-top:15px;" placeholder="يرجى ذكر تفاصيل البرامج الأخرى...">
 
             <div class="section-title">خامساً: ملف التقرير</div>
             <div class="form-group">
                 <label>ارفق ملف التقرير (PDF فقط):</label>
-                <input type="file" id="pdfFile" accept="application/pdf">
+                <input type="file" id="pdfFile" accept="application/pdf" style="padding: 10px;">
             </div>
 
             <button class="btn" id="sBtn" onclick="sendData()">حفظ وإرسال التقرير النهائي</button>
@@ -269,7 +363,7 @@
                 cf.innerHTML = '<option value="">اختر المحافظة...</option>';
                 cities.forEach(c => cf.innerHTML += `<option value="${c}">${c}</option>`);
             } catch (e) {
-                document.getElementById("status").innerHTML = `<p style="color:red">❌ فشل تحميل البيانات. يرجى التأكد من اتصال الإنترنت.</p>`;
+                document.getElementById("status").innerHTML = `<p style="color:red; background:#ffebee; padding:10px; border-radius:10px;">❌ فشل تحميل البيانات. يرجى التأكد من اتصال الإنترنت.</p>`;
             }
         }
 
@@ -294,12 +388,12 @@
 
         function renderSchools(list) {
             const ss = document.getElementById("schoolSelect");
-            ss.innerHTML = '<option value="">اختر المدرسة من القائمة...</option>';
+            ss.innerHTML = '<option value="" disabled selected>اختر المدرسة من القائمة...</option>';
             list.forEach(s => {
                 const isSubmitted = s[3] === true;
                 const option = document.createElement("option");
                 option.value = s[1];
-                option.textContent = s[1] + (isSubmitted ? " ✅ (تم الرفع مسبقاً)" : "");
+                option.textContent = s[1] + (isSubmitted ? " ✅ (تم الرفع)" : "");
                 option.dataset.submitted = isSubmitted;
                 ss.appendChild(option);
             });
@@ -389,12 +483,12 @@
                     const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
                     const out = await res.json();
                     if(out.status === "success") {
-                        st.innerHTML = "<div style='background:#e8f5e9; color:#2e7d32; padding:20px; border-radius:15px;'>✅ تمت عملية الرفع بنجاح، شكراً لكم!</div>";
+                        st.innerHTML = "<div style='background:#e8f5e9; color:#2e7d32; padding:20px; border-radius:15px; border:1px solid #c8e6c9;'>✅ تمت عملية الرفع بنجاح، شكراً لكم!</div>";
                         document.getElementById("mainForm").style.display = "none";
                         init();
                     } else { throw new Error(out.message); }
                 } catch(err) {
-                    st.innerHTML = `<p style="color:red">❌ حدث خطأ أثناء الرفع: ${err.message}</p>`;
+                    st.innerHTML = `<p style="color:red; background:#ffebee; padding:10px; border-radius:10px;">❌ حدث خطأ أثناء الرفع: ${err.message}</p>`;
                     btn.disabled = false;
                 }
             };
