@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لوحة القيادة | حملة حتى تصل بأمان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #006c35;
+            --primary-dark: #004d27;
+            --accent: #2ecc71;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #2c3e50;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            color: var(--text);
+            direction: rtl;
+        }
+
+        /* ======= الهيدر ======= */
+        header {
+            background: var(--white);
+            padding: 20px 15px;
+            text-align: center;
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title h2 { margin: 0; color: var(--primary); font-size: 1.3rem; font-weight: 800; }
+        .header-subtitle { font-size: 0.9rem; color: #666; font-weight: 600; margin-top: 5px; }
+
+        /* ======= الحاوية الرئيسية ======= */
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px auto 40px;
+        }
+
+        /* ======= قسم البطاقات والنسبة ======= */
+        .card-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .section-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; text-align: center; }
+        
+        .progress-bar-bg {
+            background: #e0e6ed;
+            height: 20px;
+            border-radius: 10px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* ======= بطاقات الإحصائيات (KPIs) ======= */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .kpi-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-bottom: 4px solid var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .kpi-card:hover { transform: translateY(-5px); }
+        .kpi-card.primary { border-bottom-color: var(--primary); }
+        .kpi-card.danger { border-bottom-color: var(--danger); }
+        .kpi-card.warning { border-bottom-color: var(--warning); }
+
+        .kpi-icon { font-size: 2rem; margin-bottom: 10px; }
+        .kpi-title { font-size: 0.9rem; font-weight: 600; color: #7f8c8d; margin-bottom: 5px; }
+        .kpi-value { font-size: 1.8rem; font-weight: 800; color: var(--text); }
+
+        /* ======= حاوية الرسم البياني ======= */
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* ======= قسم القوائم (التبويبات) ======= */
+        .tabs-container {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid #e0e6ed;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            font-family: 'Cairo';
+            font-weight: 700;
+            font-size: 1rem;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: var(--white);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .tab-content { display: none; padding: 20px; }
+        .tab-content.active { display: block; }
+
+        .school-list { list-style: none; padding: 0; margin: 0; max-height: 400px; overflow-y: auto; }
+        .school-list li {
+            padding: 15px;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .school-list li:last-child { border-bottom: none; }
+        .school-name { font-weight: 700; font-size: 0.95rem; }
+        .school-city { font-size: 0.8rem; color: #7f8c8d; background: #f0f9f4; padding: 3px 8px; border-radius: 5px; }
+        
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.9); z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3; border-top: 4px solid var(--primary);
+            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: bold; color: var(--primary);">جاري تحديث الإحصائيات...</p>
+    </div>
+
+    <header>
+        <div class="header-title">
+            <h2>لوحة القيادة والمتابعة</h2>
+            <div class="header-subtitle">حملة السلامة في النقل المدرسي (حتى تصل بأمان)</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="card-section">
+            <div class="section-title">النسبة العامة للإنجاز</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="completionBar">0%</div>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card primary">
+                <div class="kpi-icon">🏫</div>
+                <div class="kpi-title">المدارس المستهدفة</div>
+                <div class="kpi-value" id="kpiTotal">0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">✅</div>
+                <div class="kpi-title">مدارس نفذت</div>
+                <div class="kpi-value" style="color: var(--accent);" id="kpiSubmitted">0</div>
+            </div>
+            <div class="kpi-card danger">
+                <div class="kpi-icon">⏳</div>
+                <div class="kpi-title">مدارس لم تنفذ</div>
+                <div class="kpi-value" style="color: var(--danger);" id="kpiPending">0</div>
+            </div>
+            <div class="kpi-card primary">
+                <div class="kpi-icon">👥</div>
+                <div class="kpi-title">الطلاب المستفيدين</div>
+                <div class="kpi-value" id="kpiBeneficiaries">0</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-icon">📊</div>
+                <div class="kpi-title">البرامج المنفذة</div>
+                <div class="kpi-value" id="kpiPrograms">0</div>
+            </div>
+        </div>
+
+        <div class="card-section">
+            <div class="section-title">نسبة الإنجاز حسب المحافظات (٪)</div>
+            <div class="chart-wrapper">
+                <canvas id="cityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="openTab('submittedTab', this)">المدارس المنفذة (✅)</button>
+                <button class="tab-btn" onclick="openTab('pendingTab', this)">المدارس المتبقية (⏳)</button>
+            </div>
+            
+            <div id="submittedTab" class="tab-content active">
+                <ul class="school-list" id="submittedList"></ul>
+            </div>
+            
+            <div id="pendingTab" class="tab-content">
+                <ul class="school-list" id="pendingList"></ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwD-VZjm-xFiuLf9z1HIBQ1fslPFi9un3TBTPfymYVAFn3xOBL70m80b8xDZZ7MmfA9MQ/exec";
+        let myChart = null; // متغير لحفظ حالة الرسم البياني
+
+        async function fetchDashboardData() {
+            try {
+                const res = await fetch(API_URL + "?action=getSchools");
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                calculateAndRenderStats(data);
+            } catch (e) {
+                alert("حدث خطأ أثناء جلب البيانات. يرجى المحاولة لاحقاً.");
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function calculateAndRenderStats(data) {
+            let totalSchools = data.length;
+            let submittedSchools = [];
+            let pendingSchools = [];
+            let totalBeneficiaries = 0;
+            let totalPrograms = 0;
+            
+            // كائن لجمع إحصائيات كل محافظة
+            let cityStats = {};
+
+            data.forEach(s => {
+                const city = s[0];
+                const name = s[1];
+                const isSubmitted = s[3] === true;
+                const beneficiaries = parseInt(s[4]) || 0;
+                const programs = parseInt(s[5]) || 0;
+
+                // تهيئة المحافظة إذا لم تكن موجودة في الكائن
+                if (!cityStats[city]) {
+                    cityStats[city] = { total: 0, submitted: 0 };
+                }
+                
+                // زيادة العدد الكلي لمدارس المحافظة
+                cityStats[city].total++;
+
+                if (isSubmitted) {
+                    submittedSchools.push({ name, city });
+                    totalBeneficiaries += beneficiaries;
+                    totalPrograms += programs;
+                    cityStats[city].submitted++; // زيادة عدد المدارس المنفذة للمحافظة
+                } else {
+                    pendingSchools.push({ name, city });
+                }
+            });
+
+            // حساب النسبة العامة
+            let completionRate = totalSchools === 0 ? 0 : Math.round((submittedSchools.length / totalSchools) * 100);
+
+            // تحديث البطاقات
+            document.getElementById('kpiTotal').innerText = totalSchools;
+            document.getElementById('kpiSubmitted').innerText = submittedSchools.length;
+            document.getElementById('kpiPending').innerText = pendingSchools.length;
+            document.getElementById('kpiBeneficiaries').innerText = totalBeneficiaries.toLocaleString();
+            document.getElementById('kpiPrograms').innerText = totalPrograms.toLocaleString();
+
+            // تحديث شريط الإنجاز
+            const progressBar = document.getElementById('completionBar');
+            progressBar.style.width = completionRate + '%';
+            progressBar.innerText = completionRate + '%';
+
+            // تعبئة القوائم
+            renderList('submittedList', submittedSchools, "لا توجد مدارس منفذة حتى الآن.");
+            renderList('pendingList', pendingSchools, "اكتملت جميع المدارس!");
+
+            // تجهيز بيانات الرسم البياني
+            const cityNames = Object.keys(cityStats);
+            const cityRates = cityNames.map(city => {
+                const stats = cityStats[city];
+                return stats.total === 0 ? 0 : Math.round((stats.submitted / stats.total) * 100);
+            });
+
+            // رسم المخطط
+            renderCityChart(cityNames, cityRates);
+
+            // إخفاء شاشة التحميل
+            document.getElementById('loader').style.display = 'none';
+        }
+
+        function renderList(elementId, schools, emptyMessage) {
+            const listEl = document.getElementById(elementId);
+            listEl.innerHTML = '';
+
+            if (schools.length === 0) {
+                listEl.innerHTML = `<li style="justify-content:center; color:#7f8c8d;">${emptyMessage}</li>`;
+                return;
+            }
+
+            schools.forEach(school => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="school-name">${school.name}</span>
+                    <span class="school-city">${school.city}</span>
+                `;
+                listEl.appendChild(li);
+            });
+        }
+
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // دالة إنشاء المخطط البياني
+        function renderCityChart(labels, dataRates) {
+            const ctx = document.getElementById('cityChart').getContext('2d');
+            
+            // تدمير المخطط السابق إذا كان موجوداً لتجنب التداخل عند التحديث
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            Chart.defaults.font.family = 'Cairo';
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'نسبة الإنجاز %',
+                        data: dataRates,
+                        backgroundColor: 'rgba(46, 204, 113, 0.8)', // لون التعبئة (accent)
+                        borderColor: '#006c35', // لون الحدود (primary)
+                        borderWidth: 1,
+                        borderRadius: 6 // حواف دائرية للأعمدة
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // للسماح بالتحكم في الارتفاع من الـ CSS
+                    plugins: {
+                        legend: { display: false }, // إخفاء المربع التوضيحي الافتراضي
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 77, 39, 0.9)',
+                            titleFont: { size: 14, family: 'Cairo' },
+                            bodyFont: { size: 14, family: 'Cairo' },
+                            callbacks: {
+                                label: function(context) {
+                                    return ' نسبة الإنجاز: ' + context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100, // أقصى قيمة هي 100%
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        },
+                        x: {
+                            ticks: { font: { size: 12, family: 'Cairo' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // بدء التشغيل
+        fetchDashboardData();
+    </script>
+</body>
+</html>
