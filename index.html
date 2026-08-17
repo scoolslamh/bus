@@ -118,9 +118,16 @@
 
         .intro-content { text-align: center; padding: 20px; max-width: 450px; width: 90%; }
         .bus-container {
-            font-size: 5rem; margin-bottom: 15px; display: inline-block;
-            animation: busArrival 2.5s ease-out forwards, busVibrate 0.3s ease-in-out infinite 2.5s;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: busArrival 2.5s ease-out forwards;
             transform-origin: bottom center;
+        }
+        .bus-container img {
+            display: block;
+            width: min(330px, 80vw);
+            height: auto;
+            object-fit: contain;
         }
 
         @keyframes busArrival {
@@ -148,6 +155,41 @@
         .checkbox-item input { display: none; }
         .checkbox-item:has(input:checked) { border-color: var(--primary); background: #e8f5e9; transform: scale(0.98); box-shadow: 0 4px 10px rgba(0,108,53,0.1); }
 
+        /* ======= عناصر تنفيذ برنامج السلامة ======= */
+        .safety-items-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .safety-item {
+            min-height: 64px;
+            flex-direction: row;
+            justify-content: flex-start;
+            text-align: right;
+            padding: 14px 16px;
+            gap: 12px;
+            line-height: 1.7;
+        }
+        .safety-item .check-mark {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border: 2px solid #cbd5e1;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            background: #fff;
+            font-size: 1rem;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+        .safety-item:has(input:checked) .check-mark {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+        }
+
         .btn { 
             width: 100%; padding: 16px; border: none; border-radius: 14px; 
             font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; 
@@ -170,9 +212,9 @@
 
     <div id="introPage">
         <div class="intro-content">
-            <div class="bus-container">🚌</div>
-            <h2 style="color: var(--primary); margin-bottom: 10px; font-weight: 800;">حملة حتى تصل بأمان</h2>
-            <p style="color: #666; font-size: 0.95rem; line-height: 1.6;">نظام رفع تقارير السلامة في النقل المدرسي<br>الإدارة العامة للتعليم بمنطقة عسير</p>
+            <div class="bus-container"><img src="back-to-school.png" alt="العودة للدراسة"></div>
+            <h2 style="color: var(--primary); margin-bottom: 10px; font-weight: 800;">أسبوع التهيئة في مدارس التعليم بمنطقة عسير</h2>
+            <p style="color: #666; font-size: 0.95rem; line-height: 1.6;">نظام رفع التقارير <br>الإدارة العامة للتعليم بمنطقة عسير</p>
             <button class="btn" id="startBtn" onclick="document.getElementById('introPage').style.display='none'">ابدأ التعبئة الآن</button>
         </div>
     </div>
@@ -181,7 +223,7 @@
         <img src="logo.png" alt="شعار وزارة التعليم" class="gov-logo" onerror="this.style.display='none'">
         <div class="header-title">
             <h2>الإدارة العامة للتعليم بمنطقة عسير</h2>
-            <div class="header-subtitle">تقرير حملة السلامة في النقل المدرسي (حتى تصل بأمان)</div>
+            <div class="header-subtitle">تقرير السلامة في الأسبوع الأول للدراسة  ( العودة بأمان )</div>
         </div>
     </header>
 
@@ -250,16 +292,34 @@
                 </div>
             </div>
 
-            <div class="section-title">رابعاً: البرامج المقدمة</div>
-            <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" value="مسابقات"><span style="font-size: 1.2rem;">🏆</span><span>مسابقات</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="عروض مرئية"><span style="font-size: 1.2rem;">🎬</span><span>عروض مرئية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="إذاعة مدرسية"><span style="font-size: 1.2rem;">📢</span><span>إذاعة مدرسية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="دورات تثقيفية"><span style="font-size: 1.2rem;">📚</span><span>دورات تثقيفية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="تطبيقات ميدانية"><span style="font-size: 1.2rem;">🚶</span><span>تطبيقات ميدانية</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="أخرى" id="oCheck" onchange="toggleOther(this)"><span style="font-size: 1.2rem;">✨</span><span>أخرى</span></label>
+            <div class="section-title">رابعاً: عناصر تنفيذ برنامج السلامة</div>
+            <div class="checkbox-grid safety-items-grid">
+                <label class="checkbox-item safety-item">
+                    <input type="checkbox" value="تعريف الطلاب والطالبات بمفهوم السلامة في المنشأة التعليمية">
+                    <span class="check-mark">✓</span>
+                    <span>تعريف الطلاب والطالبات بمفهوم السلامة في المنشأة التعليمية</span>
+                </label>
+                <label class="checkbox-item safety-item">
+                    <input type="checkbox" value="التعريف بمخارج الطوارئ ومسالك الهروب وأقرب مخرج في حالة الخطر">
+                    <span class="check-mark">✓</span>
+                    <span>التعريف بمخارج الطوارئ ومسالك الهروب وأقرب مخرج في حالة الخطر</span>
+                </label>
+                <label class="checkbox-item safety-item">
+                    <input type="checkbox" value="التعريف بأجهزة الإنذار والإطفاء وكيفية استخدامها">
+                    <span class="check-mark">✓</span>
+                    <span>التعريف بأجهزة الإنذار والإطفاء وكيفية استخدامها</span>
+                </label>
+                <label class="checkbox-item safety-item">
+                    <input type="checkbox" value="التوعية بأهمية المحافظة على سلامة أدوات السلامة في المدرسة">
+                    <span class="check-mark">✓</span>
+                    <span>التوعية بأهمية المحافظة على سلامة أدوات السلامة في المدرسة</span>
+                </label>
+                <label class="checkbox-item safety-item">
+                    <input type="checkbox" value="تنفيذ فرضية إخلاء في الأسبوع التمهيدي">
+                    <span class="check-mark">✓</span>
+                    <span>تنفيذ فرضية إخلاء في الأسبوع التمهيدي</span>
+                </label>
             </div>
-            <input type="text" id="oDet" style="display:none; margin-top:15px;" placeholder="يرجى ذكر تفاصيل البرامج الأخرى...">
 
             <div class="section-title">خامساً: ملف التقرير</div>
             <div class="form-group">
@@ -403,12 +463,7 @@
             document.getElementById("status").innerHTML = "";
             document.getElementById("schoolSearchInput").value = "";
         }
-
-        function toggleOther(chk) {
-            document.getElementById("oDet").style.display = chk.checked ? "block" : "none";
-        }
-
-        async function sendData() {
+async function sendData() {
             const file = document.getElementById("pdfFile").files[0];
             const name = document.getElementById("cName").value;
             // القراءة من البطاقة لضمان أن الاسم المختار هو الذي يتم رفعه
@@ -432,7 +487,7 @@
                     beneficiaries: document.getElementById("students").value || 0,
                     programsCount: document.getElementById("progs").value || 0,
                     selectedPrograms: Array.from(document.querySelectorAll('.checkbox-grid input:checked')).map(i=>i.value).join(", "),
-                    otherDetails: document.getElementById("oDet").value,
+                    otherDetails: "",
                     base64Data: e.target.result.split(",")[1]
                 };
 
